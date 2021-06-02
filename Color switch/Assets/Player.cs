@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -21,22 +22,28 @@ public class Player : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetButtonDown("Jump") || Input.GetMouseButton(0))
+        if (Input.GetButtonDown("Jump") || Input.GetMouseButtonDown(0))
         {
             rb.velocity = Vector2.up * jumpForce;
         }
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.tag == "ColorChanger")
+        {
+            SetRandomColor();
+            Destroy(collision.gameObject);
+            return;
+        }
         if(collision.tag != currentColor)
         {
-            Debug.Log("GOVER");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
     void SetRandomColor()
     {
-        int index = Random.Range(0, 3);
+        int index = Random.Range(0, 4);
 
         switch (index)
         {
